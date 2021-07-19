@@ -1,0 +1,163 @@
+<?php
+class PacienteDao{
+    private static $instance;
+    function __construct() {
+    }
+    static public function getInstance(){
+        if(!isset(self::$instance))
+            self::$instance = new PacienteDao();
+        return self::$instance;
+    }
+
+     //CRUD ---------------------------------------------------------------------
+    public function m_gravar_paciente(PacienteBean $paciente) {
+        try {
+            $sql = "insert into paciente (emp_nome,emp_nomeFantasia,emp_cnpj,emp_ie,emp_site,emp_email,emp_celular,emp_cep,emp_logradouro,emp_numeroEnd,emp_bairro,emp_municipio,emp_uf) values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            $statement_sql = ConexaoPDO::getInstance()->prepare($sql);
+            $statement_sql->bindvalue(1, $paciente->getEmp_nome());
+            $statement_sql->bindvalue(2, $paciente->getEmp_nomeFantasia());
+            $statement_sql->bindvalue(3, $paciente->getEmp_cnpj());
+            $statement_sql->bindvalue(4, $paciente->getEmp_ie());
+            $statement_sql->bindvalue(5, $paciente->getEmp_site());
+            $statement_sql->bindvalue(6, $paciente->getEmp_email());
+            $statement_sql->bindvalue(7, $paciente->getEmp_celular());
+            $statement_sql->bindvalue(8, $paciente->getEmp_cep());
+            $statement_sql->bindvalue(9, $paciente->getEmp_logradouro());
+            $statement_sql->bindvalue(10, $paciente->getEmp_numeroEnd());
+            $statement_sql->bindvalue(11, $paciente->getEmp_bairro());
+            $statement_sql->bindvalue(12, $paciente->getEmp_municipio());
+            $statement_sql->bindvalue(13, $paciente->getEmp_uf());
+            $statement_sql->execute();
+            return ConexaoPDO::getInstance()->lastInsertId();
+        } catch (PDOException $e) {
+            print " Erro em m_gravar_paciente" . $e->getMessage();
+        }
+    }
+    public function m_alterar_paciente(PacienteBean $paciente) {
+        try {
+            $sql = "update paciente set emp_nome=:emp_nome, "
+                                    . "emp_nomeFantasia=:emp_nomeFantasia, "
+                                    . "emp_cnpj=:emp_cnpj,"
+                                    . "emp_ie=:emp_ie,"
+                                    . "emp_site=:emp_site,"
+                                    . "emp_email=:emp_email,"
+                                    . "emp_celular=:emp_celular,"
+                                    . "emp_cep=:emp_cep,"
+                                    . "emp_logradouro=:emp_logradouro, "
+                                    . "emp_numeroEnd=:emp_numeroEnd,"
+                                    . "emp_bairro=:emp_bairro,"
+                                    . "emp_municipio=:emp_municipio,"
+                                    . "emp_uf=:emp_uf "
+                                    . "where emp_id=:emp_id";
+            $statement_sql = ConexaoPDO::getInstance()->prepare($sql);
+            $statement_sql->bindvalue(":emp_nome",        $paciente->getEmp_nome());
+            $statement_sql->bindvalue(":emp_nomeFantasia",$paciente->getEmp_nomeFantasia()); 
+            $statement_sql->bindvalue(":emp_cnpj",        $paciente->getEmp_cnpj());
+            $statement_sql->bindvalue(":emp_ie",          $paciente->getEmp_ie());
+            $statement_sql->bindvalue(":emp_site",        $paciente->getEmp_site());
+            $statement_sql->bindvalue(":emp_email",       $paciente->getEmp_email());
+            $statement_sql->bindvalue(":emp_celular",     $paciente->getEmp_celular());
+            $statement_sql->bindvalue(":emp_cep",         $paciente->getEmp_cep());
+            $statement_sql->bindvalue(":emp_logradouro",  $paciente->getEmp_logradouro());
+            $statement_sql->bindvalue(":emp_numeroEnd",   $paciente->getEmp_numeroEnd());
+            $statement_sql->bindvalue(":emp_bairro",      $paciente->getEmp_bairro());
+            $statement_sql->bindvalue(":emp_municipio",   $paciente->getEmp_municipio());
+            $statement_sql->bindvalue(":emp_uf",          $paciente->getEmp_uf());
+            $statement_sql->bindvalue(":emp_id",          $paciente->getEmp_id());
+            return $statement_sql->execute();
+            $statement_sql->debugDumpParams();
+        } catch (PDOException $e) {
+            print " Erro em m_alterar_paciente" . $e->getMessage();
+        }
+    }
+    public function m_excluir_paciente($id){
+        try {
+            $sql = "delete from paciente where emp_id =:id";
+            $statement_sql = ConexaoPDO::getInstance()->prepare($sql);
+            $statement_sql->bindValue(":id", $id);
+            return $statement_sql->execute();
+        } catch (PDOException $e) {
+            print "Erro em m_excluir_paciente:".$e->getMessage();
+        }
+    }
+    
+    //BUSCA --------------------------------------------------------------------
+    public function m_buscar_paciente_por_codigo($codigo){
+        try {
+            $sql = "select * from paciente where emp_id =:emp_id";
+            $statement_sql = ConexaoPDO::getInstance()->prepare($sql);
+            $statement_sql->bindvalue(":emp_id", $codigo);
+            $statement_sql->execute();
+            return $this->m_popula_objeto_paciente($statement_sql->fetch(PDO::FETCH_ASSOC));
+        } catch (PDOException $e) {
+            print " Erro em m_buscar_paciente_por_codigo " . $e->getMessage();
+        }
+    }
+    public function m_burcar_todas_paciente() {
+        try {
+            $sql = "select * from paciente";
+            $statement_sql = ConexaoPDO::getInstance()->prepare($sql);
+            $statement_sql->execute();
+            return $this->fecht_array($statement_sql);
+        } catch (PDOException $e) {
+            print " Erro em m_burcar_todas_pacientes " . $e->getMessage();
+        }
+    }
+    //--------------------------------------------------------------------------
+    public function m_paginacao_paciente($inicio, $registros) {
+        try {
+            $sql = "select * from paciente LIMIT $inicio, $registros";
+            $statement_sql = ConexaoPDO::getInstance()->prepare($sql);
+            $statement_sql->execute();
+            return $this->fecht_array($statement_sql);
+        } catch (PDOException $e) {
+            print " Erro em m_paginacao_paciente " . $e->getMessage();
+        }
+    }
+    
+    private function m_popula_objeto_paciente($linha) {
+       $paciente = new PacienteBean();
+       $paciente->setEmp_id($linha["emp_id"]);
+       $paciente->setEmp_nome($linha["emp_nome"]);
+       $paciente->setEmp_nomeFantasia($linha["emp_nomeFantasia"]);
+       $paciente->setEmp_cnpj($linha["emp_cnpj"]);
+       $paciente->setEmp_ie($linha["emp_ie"]);
+       $paciente->setEmp_site($linha["emp_site"]);
+       $paciente->setEmp_email($linha["emp_email"]);
+       $paciente->setEmp_celular($linha["emp_celular"]);
+       $paciente->setEmp_cep($linha["emp_cep"]);
+       $paciente->setEmp_logradouro($linha["emp_logradouro"]);
+       $paciente->setEmp_numeroEnd($linha["emp_numeroEnd"]);
+       $paciente->setEmp_bairro($linha["emp_bairro"]);
+       $paciente->setEmp_municipio($linha["emp_municipio"]);
+       $paciente->setEmp_uf($linha["emp_uf"]);
+       return $paciente;
+    }
+    
+    private function fecht_array($statement_sql) {
+        $resultado = array();
+        if ($statement_sql) {
+            while ($linha = $statement_sql->fetch(PDO::FETCH_OBJ)) {
+                $paciente = new PacienteBean();
+                $paciente->setEmp_id($linha->emp_id);
+                $paciente->setEmp_nome($linha->emp_nome);
+                $paciente->setEmp_nomeFantasia($linha->emp_nomeFantasia);  
+                $paciente->setEmp_cnpj($linha->emp_cnpj); 
+                $paciente->setEmp_ie($linha->emp_ie);
+                $paciente->setEmp_site($linha->emp_site);
+                $paciente->setEmp_email($linha->emp_email);
+                $paciente->setEmp_celular($linha->emp_celular); 
+                $paciente->setEmp_cep($linha->emp_cep);
+                $paciente->setEmp_logradouro($linha->emp_logradouro);
+                $paciente->setEmp_numeroEnd($linha->emp_numeroEnd);
+                $paciente->setEmp_bairro($linha->emp_bairro); 
+                $paciente->setEmp_municipio($linha->emp_municipio);
+                $paciente->setEmp_uf($linha->emp_uf);
+                $resultado[] = $paciente;
+            }
+        }
+        return $resultado;
+    }
+}
+
+?>
