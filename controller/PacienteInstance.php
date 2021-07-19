@@ -43,8 +43,8 @@ class PacienteInstance{
     }
     
     //BUSCA---------------------------------------------------------------------
-    public function c_buscar_todas_paciente() {
-        return PacienteDao::getInstance()->m_burcar_todas_paciente();
+    public function c_buscar_todos_pacientes() {
+        return PacienteDao::getInstance()->m_burcar_todos_pacientes();
     }
     public function c_buscar_paciente_por_codigo($codigo) {
         return PacienteDao::getInstance()->m_buscar_paciente_por_codigo($codigo);

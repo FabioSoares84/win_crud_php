@@ -1,5 +1,5 @@
 <?php
-class EmpresaBean{
+class PacienteBean{
     private $pac_id;
     private $pac_nome;
     private $pac_cpf;
@@ -61,7 +61,7 @@ class EmpresaBean{
         return $this->pac_obs;
     }
 
-    public function setPac_id($pac_id): void {
+    public function setPac_id($pac_id) {
         $this->pac_id = $pac_id;
     }
 

@@ -12,7 +12,7 @@ class PacienteDao{
      //CRUD ---------------------------------------------------------------------
     public function m_gravar_paciente(PacienteBean $paciente) {
         try {
-            $sql = "insert into paciente (emp_nome,emp_nomeFantasia,emp_cnpj,emp_ie,emp_site,emp_email,emp_celular,emp_cep,emp_logradouro,emp_numeroEnd,emp_bairro,emp_municipio,emp_uf) values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            $sql = "insert into pacientes (emp_nome,emp_nomeFantasia,emp_cnpj,emp_ie,emp_site,emp_email,emp_celular,emp_cep,emp_logradouro,emp_numeroEnd,emp_bairro,emp_municipio,emp_uf) values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
             $statement_sql = ConexaoPDO::getInstance()->prepare($sql);
             $statement_sql->bindvalue(1, $paciente->getEmp_nome());
             $statement_sql->bindvalue(2, $paciente->getEmp_nomeFantasia());
@@ -35,7 +35,7 @@ class PacienteDao{
     }
     public function m_alterar_paciente(PacienteBean $paciente) {
         try {
-            $sql = "update paciente set emp_nome=:emp_nome, "
+            $sql = "update pacientes set emp_nome=:emp_nome, "
                                     . "emp_nomeFantasia=:emp_nomeFantasia, "
                                     . "emp_cnpj=:emp_cnpj,"
                                     . "emp_ie=:emp_ie,"
@@ -72,7 +72,7 @@ class PacienteDao{
     }
     public function m_excluir_paciente($id){
         try {
-            $sql = "delete from paciente where emp_id =:id";
+            $sql = "delete from pacientes where emp_id =:id";
             $statement_sql = ConexaoPDO::getInstance()->prepare($sql);
             $statement_sql->bindValue(":id", $id);
             return $statement_sql->execute();
@@ -84,18 +84,18 @@ class PacienteDao{
     //BUSCA --------------------------------------------------------------------
     public function m_buscar_paciente_por_codigo($codigo){
         try {
-            $sql = "select * from paciente where emp_id =:emp_id";
+            $sql = "select * from pacientes where pac_id =:pac_id";
             $statement_sql = ConexaoPDO::getInstance()->prepare($sql);
-            $statement_sql->bindvalue(":emp_id", $codigo);
+            $statement_sql->bindvalue(":pac_id", $codigo);
             $statement_sql->execute();
             return $this->m_popula_objeto_paciente($statement_sql->fetch(PDO::FETCH_ASSOC));
         } catch (PDOException $e) {
             print " Erro em m_buscar_paciente_por_codigo " . $e->getMessage();
         }
     }
-    public function m_burcar_todas_paciente() {
+    public function m_burcar_todos_pacientes() {
         try {
-            $sql = "select * from paciente";
+            $sql = "select * from pacientes";
             $statement_sql = ConexaoPDO::getInstance()->prepare($sql);
             $statement_sql->execute();
             return $this->fecht_array($statement_sql);
@@ -106,31 +106,29 @@ class PacienteDao{
     //--------------------------------------------------------------------------
     public function m_paginacao_paciente($inicio, $registros) {
         try {
-            $sql = "select * from paciente LIMIT $inicio, $registros";
+            $sql = "select * from pacientes LIMIT $inicio, $registros";
             $statement_sql = ConexaoPDO::getInstance()->prepare($sql);
             $statement_sql->execute();
             return $this->fecht_array($statement_sql);
         } catch (PDOException $e) {
-            print " Erro em m_paginacao_paciente " . $e->getMessage();
+            print " Erro em m_paginacao_pacientes " . $e->getMessage();
         }
     }
     
     private function m_popula_objeto_paciente($linha) {
        $paciente = new PacienteBean();
-       $paciente->setEmp_id($linha["emp_id"]);
-       $paciente->setEmp_nome($linha["emp_nome"]);
-       $paciente->setEmp_nomeFantasia($linha["emp_nomeFantasia"]);
-       $paciente->setEmp_cnpj($linha["emp_cnpj"]);
-       $paciente->setEmp_ie($linha["emp_ie"]);
-       $paciente->setEmp_site($linha["emp_site"]);
-       $paciente->setEmp_email($linha["emp_email"]);
-       $paciente->setEmp_celular($linha["emp_celular"]);
-       $paciente->setEmp_cep($linha["emp_cep"]);
-       $paciente->setEmp_logradouro($linha["emp_logradouro"]);
-       $paciente->setEmp_numeroEnd($linha["emp_numeroEnd"]);
-       $paciente->setEmp_bairro($linha["emp_bairro"]);
-       $paciente->setEmp_municipio($linha["emp_municipio"]);
-       $paciente->setEmp_uf($linha["emp_uf"]);
+       $paciente->setPac_id($linha["pac_id"]);
+       $paciente->setPac_nome($linha["pac_nome"]);
+       $paciente->setPac_cpf($linha["pac_cpf"]);
+       $paciente->setPac_rg($linha["pac_rg"]);
+       $paciente->setPac_telefone($linha["pac_telefone"]);
+       $paciente->setPac_email($linha["pac_email"]);
+       $paciente->setPac_data_nasc($linha["pac_data_nasc"]);
+       $paciente->setPac_idade($linha["pac_idade"]);
+       $paciente->setPac_civil($linha["pac_civil"]);
+       $paciente->setPac_sexo($linha["pac_sexo"]);
+       $paciente->setPac_endereco($linha["pac_endereco"]);
+       $paciente->setPac_obs($linha["pac_obs"]);
        return $paciente;
     }
     
@@ -139,20 +137,18 @@ class PacienteDao{
         if ($statement_sql) {
             while ($linha = $statement_sql->fetch(PDO::FETCH_OBJ)) {
                 $paciente = new PacienteBean();
-                $paciente->setEmp_id($linha->emp_id);
-                $paciente->setEmp_nome($linha->emp_nome);
-                $paciente->setEmp_nomeFantasia($linha->emp_nomeFantasia);  
-                $paciente->setEmp_cnpj($linha->emp_cnpj); 
-                $paciente->setEmp_ie($linha->emp_ie);
-                $paciente->setEmp_site($linha->emp_site);
-                $paciente->setEmp_email($linha->emp_email);
-                $paciente->setEmp_celular($linha->emp_celular); 
-                $paciente->setEmp_cep($linha->emp_cep);
-                $paciente->setEmp_logradouro($linha->emp_logradouro);
-                $paciente->setEmp_numeroEnd($linha->emp_numeroEnd);
-                $paciente->setEmp_bairro($linha->emp_bairro); 
-                $paciente->setEmp_municipio($linha->emp_municipio);
-                $paciente->setEmp_uf($linha->emp_uf);
+                $paciente->setPac_id($linha->pac_id);
+                $paciente->setPac_nome($linha->pac_nome);
+                $paciente->setPac_cpf($linha->pac_cpf);  
+                $paciente->setPac_rg($linha->pac_rg); 
+                $paciente->setPac_telefone($linha->pac_telefone);
+                $paciente->setPac_email($linha->pac_email);
+                $paciente->setPac_data_nasc($linha->pac_data_nasc);
+                $paciente->setPac_idade($linha->pac_idade); 
+                $paciente->setPac_civil($linha->pac_civil);
+                $paciente->setPac_sexo($linha->pac_sexo);
+                $paciente->setPac_endereco($linha->pac_endereco);
+                $paciente->setPac_obs($linha->pac_obs); 
                 $resultado[] = $paciente;
             }
         }

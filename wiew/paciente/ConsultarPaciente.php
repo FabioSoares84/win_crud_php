@@ -1,11 +1,11 @@
 <?php
 error_reporting(E_ALL ^ E_NOTICE);
 require_once '../../include/auto_load_path_2.php';
-$paciente = new FornecedorInstance();
-$pacienteBean = new FornecedorBean();
+$paciente = new PacienteInstance();
+$pacienteBean = new PacienteBean();
 
 $pagina = (isset($_GET['p'])) ? $_GET['p'] : 1;
-$pacienteBean = $paciente->c_buscar_todas_fornecedor();
+$pacienteBean = $paciente->c_buscar_todos_pacientes();
 
 $total = count($pacienteBean);
 $registros_por_pagina = 300;
@@ -41,12 +41,12 @@ $inicio = ($registros_por_pagina * $pagina) - $registros_por_pagina;
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Consultar Fornecedor
+                            Consultar Paciente
                         </div>
                         <div class="col-lg-12">
                             <h5>  
                                <a target="Frame1"  href="./home.php"></a>
-                               <a target="Frame1" href="CadastrarFornecedor.php" class="btn btn-primary pull-right menu"><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;Nova Fornecedor</a>
+                               <a target="Frame1" href="CadastrarPaciente.php" class="btn btn-primary pull-right menu"><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;Nova Paciente</a>
                             </h5>                                                                                         
                         </div>
                         <br>
@@ -62,28 +62,28 @@ $inicio = ($registros_por_pagina * $pagina) - $registros_por_pagina;
                                                     <th>NOME:</th>
                                                     <th>EMAIL:</th>
                                                     <th>CELULAR:</th>
-                                                    <th>CNPJ:</th>  
-                                                    <th>IE:</th>  
+                                                    <th>CPF:</th>  
+                                                    <th>SEXO:</th>  
                                                     <th>AÇÃO:</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                    $pacienteBean = $paciente->c_paginacao_fornecedor($inicio, $registros_por_pagina);
+                                                    $pacienteBean = $paciente->c_paginacao_paciente($inicio, $registros_por_pagina);
                                                     $count = count($pacienteBean);
-                                                    foreach ($pacienteBean as $forn) {
+                                                    foreach ($pacienteBean as $pacient) {
                                                 ?>
                                                     <tr class="odd gradeA">
-                                                        <td style="width: 30px"><?php echo $forn->getFor_id() ?></td>
-                                                        <td><?php echo $forn->getFor_nome() ?></td>
-                                                        <td><?php echo $forn->getFor_email()?></td>
-                                                        <td><?php echo $forn->getFor_celular() ?></td> 
-                                                        <td><?php echo $forn->getFor_cnpj() ?></td>  
-                                                        <td><?php echo $forn->getFor_ie() ?></td> 
+                                                        <td style="width: 30px"><?php echo $pacient->getPac_id() ?></td>
+                                                        <td><?php echo $pacient->getPac_nome() ?></td>
+                                                        <td><?php echo $pacient->getPac_email()?></td>
+                                                        <td><?php echo $pacient->getPac_telefone() ?></td> 
+                                                        <td><?php echo $pacient->getPac_cpf() ?></td>  
+                                                        <td><?php echo $pacient->getPac_sexo() ?></td> 
                                                          
                                                         <td style="width: 100px">
-                                                            <a class="btn btn-info" title="Editar" href="CadastrarFornecedor.php?id=<?php echo $forn->getFor_id()?>"><i  class="fa fa-pencil"></i></a>
-                                                            <a class="btn btn-danger" title="Excluir" href="javascript:if(confirm('Deseja mesmo excluir o Fornecedor? <?php echo $forn->getFor_nome() ?>')) {location='CadastrarFornecedor.php?acao=excluir&id=<?php echo $forn->getFor_id()?>';}"><i  class="fa fa-trash"></i></a>                                                                                                                                  
+                                                            <a class="btn btn-info" title="Editar" href="CadastrarPaciente.php?id=<?php echo $pacient->getPac_id()?>"><i  class="fa fa-pencil"></i></a>
+                                                            <a class="btn btn-danger" title="Excluir" href="javascript:if(confirm('Deseja mesmo excluir o Paciente? <?php echo $pacient->getPac_nome() ?>')) {location='CadastrarPaciente.php?acao=excluir&id=<?php echo $pacient->getPac_id()?>';}"><i  class="fa fa-trash"></i></a>                                                                                                                                  
                                                         </td> 
                                                     </tr>
                                                 <?php } ?>
