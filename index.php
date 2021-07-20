@@ -10,8 +10,14 @@ and open the template in the editor.
         <title></title>
     </head>
     <body>
-        <?php
-        // put your code here
+        <a href="view/paciente/ConsultarPaciente.php?=buscar">Buscar</a>
+        <a href="view/paciente/CadastrarPaciente.php?=cadastrar">Cadastrar</a>
+        <br/>
+        <?php 
+            $valor = @$_GET['p'];
+            if($valor == 'buscar')   {require_once 'ConsultarPaciente.php';}
+            if($valor == 'cadastrar'){require_once 'CadastrarPaciente.php';}
         ?>
+      
     </body>
 </html>
