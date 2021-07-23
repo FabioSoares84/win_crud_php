@@ -4,11 +4,11 @@ require_once '../../include/auto_load_path_2.php';
 $paciente = new PacienteInstance();
 $pacienteBean = new PacienteBean();
 
-$pagina = (isset($_GET['p'])) ? $_GET['p'] : 1;
+$pagina = (isset($_GET['p'])) ? $_GET['p'] :1;
 $pacienteBean = $paciente->c_buscar_todos_pacientes();
 
 $total = count($pacienteBean);
-$registros_por_pagina = 300;
+$registros_por_pagina = 50000;
 $numPaginas = ceil($total / $registros_por_pagina);
 $inicio = ($registros_por_pagina * $pagina) - $registros_por_pagina;
 ?>
@@ -21,19 +21,11 @@ $inicio = ($registros_por_pagina * $pagina) - $registros_por_pagina;
         <meta name="description" content="">
         <meta name="author" content="Fábio Soares">
          
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">   
         <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js">
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
-        <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
-        
-        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
-            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-        style="margin-top: 0px
-        <![endif]-->
+        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     </head>
     <body>
         <div id="wrapper">
@@ -55,7 +47,7 @@ $inicio = ($registros_por_pagina * $pagina) - $registros_por_pagina;
                             <div class="row">
                                 <div id="list" class="row">
                                     <div class="table-responsive col-md-12">
-                                        <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                        <table id="table_paciente" class="display nowrap" style="width:100%" >
                                             <thead>
                                                 <tr>
                                                     <th>ID:</th>
@@ -72,9 +64,10 @@ $inicio = ($registros_por_pagina * $pagina) - $registros_por_pagina;
                                                     $pacienteBean = $paciente->c_paginacao_paciente($inicio, $registros_por_pagina);
                                                     $count = count($pacienteBean);
                                                     foreach ($pacienteBean as $pacient) {
+                                                  
                                                 ?>
                                                     <tr class="odd gradeA">
-                                                        <td style="width: 30px"><?php echo $pacient->getPac_id() ?></td>
+                                                        <td style="width: 30px"><?php echo $pacient->getId() ?></td>
                                                         <td><?php echo $pacient->getPac_nome() ?></td>
                                                         <td><?php echo $pacient->getPac_email()?></td>
                                                         <td><?php echo $pacient->getPac_telefone() ?></td> 
@@ -82,8 +75,8 @@ $inicio = ($registros_por_pagina * $pagina) - $registros_por_pagina;
                                                         <td><?php echo $pacient->getPac_sexo() ?></td> 
                                                          
                                                         <td style="width: 100px">
-                                                            <a class="btn btn-info" title="Editar" href="CadastrarPaciente.php?id=<?php echo $pacient->getPac_id()?>"><i  class="fa fa-pencil"></i></a>
-                                                            <a class="btn btn-danger" title="Excluir" href="javascript:if(confirm('Deseja mesmo excluir o Paciente? <?php echo $pacient->getPac_nome() ?>')) {location='CadastrarPaciente.php?acao=excluir&id=<?php echo $pacient->getPac_id()?>';}"><i  class="fa fa-trash"></i></a>                                                                                                                                  
+                                                            <a class="btn btn-info" title="Editar" href="CadastrarPaciente.php?id=<?php echo $pacient->getId()?>"><i  class="fa fa-pencil"></i></a>
+                                                            <a class="btn btn-danger" title="Excluir" href="javascript:if(confirm('Deseja mesmo excluir o Paciente? <?php echo $pacient->getPac_nome() ?>')) {location='CadastrarPaciente.php?acao=excluir&id=<?php echo $pacient->getId()?>';}"><i  class="fa fa-trash"></i></a>                                                                                                                                  
                                                         </td> 
                                                     </tr>
                                                 <?php } ?>
@@ -99,8 +92,13 @@ $inicio = ($registros_por_pagina * $pagina) - $registros_por_pagina;
         </div>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
     <script>
-        $(document).ready(function () {
-            $('#dataTables-example').DataTable({
+     $(document).ready(function () {
+	var data = [];
+        for ( var i=0 ; i<50000 ; i++ ) {
+            data.push( [ i, i, i, i, i] );
+        }		
+
+            $('#table_paciente').DataTable({
                  language:{
                     "sEmptyTable": "Nenhum registro encontrado",
                     "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
@@ -126,6 +124,7 @@ $inicio = ($registros_por_pagina * $pagina) - $registros_por_pagina;
                 }
             });
         });
-    </script> 
+    </script>
+    
     </body>
 </html>    

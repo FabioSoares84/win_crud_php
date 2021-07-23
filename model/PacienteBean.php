@@ -1,6 +1,6 @@
 <?php
 class PacienteBean{
-    private $pac_id;
+    private $id;
     private $pac_nome;
     private $pac_cpf;
     private $pac_rg;
@@ -13,11 +13,15 @@ class PacienteBean{
     private $pac_endereco;
     private $pac_obs;
    
-    public function getPac_id() {
-        return $this->pac_id;
+    public function getId() {
+        return $this->id;
     }
 
-    public function getPac_nome() {
+    public function setId($id): void {
+        $this->id = $id;
+    }
+
+        public function getPac_nome() {
         return $this->pac_nome;
     }
 
@@ -61,9 +65,7 @@ class PacienteBean{
         return $this->pac_obs;
     }
 
-    public function setPac_id($pac_id) {
-        $this->pac_id = $pac_id;
-    }
+  
 
     public function setPac_nome($pac_nome): void {
         $this->pac_nome = $pac_nome;

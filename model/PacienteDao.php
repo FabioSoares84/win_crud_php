@@ -117,18 +117,18 @@ class PacienteDao{
     
     private function m_popula_objeto_paciente($linha) {
        $paciente = new PacienteBean();
-       $paciente->setPac_id($linha["pac_id"]);
-       $paciente->setPac_nome($linha["pac_nome"]);
-       $paciente->setPac_cpf($linha["pac_cpf"]);
-       $paciente->setPac_rg($linha["pac_rg"]);
-       $paciente->setPac_telefone($linha["pac_telefone"]);
-       $paciente->setPac_email($linha["pac_email"]);
-       $paciente->setPac_data_nasc($linha["pac_data_nasc"]);
-       $paciente->setPac_idade($linha["pac_idade"]);
-       $paciente->setPac_civil($linha["pac_civil"]);
-       $paciente->setPac_sexo($linha["pac_sexo"]);
-       $paciente->setPac_endereco($linha["pac_endereco"]);
-       $paciente->setPac_obs($linha["pac_obs"]);
+       $paciente->setId($linha["id"]);
+       $paciente->setPac_nome($linha["nome"]);
+       $paciente->setPac_cpf($linha["cpf"]);
+       $paciente->setPac_rg($linha["rg"]);
+       $paciente->setPac_telefone($linha["telefone"]);
+       $paciente->setPac_email($linha["email"]);
+       $paciente->setPac_data_nasc($linha["data_nasc"]);
+       $paciente->setPac_idade($linha["idade"]);
+       $paciente->setPac_civil($linha["civil"]);
+       $paciente->setPac_sexo($linha["sexo"]);
+       $paciente->setPac_endereco($linha["endereco"]);
+       $paciente->setPac_obs($linha["obs"]);
        return $paciente;
     }
     
@@ -137,18 +137,18 @@ class PacienteDao{
         if ($statement_sql) {
             while ($linha = $statement_sql->fetch(PDO::FETCH_OBJ)) {
                 $paciente = new PacienteBean();
-                $paciente->setPac_id($linha->pac_id);
-                $paciente->setPac_nome($linha->pac_nome);
-                $paciente->setPac_cpf($linha->pac_cpf);  
-                $paciente->setPac_rg($linha->pac_rg); 
-                $paciente->setPac_telefone($linha->pac_telefone);
-                $paciente->setPac_email($linha->pac_email);
-                $paciente->setPac_data_nasc($linha->pac_data_nasc);
-                $paciente->setPac_idade($linha->pac_idade); 
-                $paciente->setPac_civil($linha->pac_civil);
-                $paciente->setPac_sexo($linha->pac_sexo);
-                $paciente->setPac_endereco($linha->pac_endereco);
-                $paciente->setPac_obs($linha->pac_obs); 
+                $paciente->setId($linha->id);
+                $paciente->setPac_nome($linha->nome);
+                $paciente->setPac_cpf($linha->cpf);  
+                $paciente->setPac_rg($linha->rg); 
+                $paciente->setPac_telefone($linha->telefone);
+                $paciente->setPac_email($linha->email);
+                $paciente->setPac_data_nasc($linha->data_nasc);
+                $paciente->setPac_idade($linha->idade); 
+                $paciente->setPac_civil($linha->civil);
+                $paciente->setPac_sexo($linha->sexo);
+                $paciente->setPac_endereco($linha->endereco);
+                $paciente->setPac_obs($linha->obs); 
                 $resultado[] = $paciente;
             }
         }

@@ -37,6 +37,7 @@ if($acao != ""){
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="../../util/jquery/jquery-3.2.1.min.js"     type="text/javascript"></script>
     <script src="../../util/jquery/jquery.mask.min.js"      type="text/javascript"></script>
+   
 </head>
 <body>
     <div id="wrapper">
@@ -48,55 +49,53 @@ if($acao != ""){
                     </div>
                     <div class="panel-body">
                         <div class="row">                              
-                            <form action="CadastrarPaciente.php" method="post">
-                                <input type="hidden" name="acao" id="acao" value="<?php echo($codigo > 0) ? "alterar" : "incluir" ?>"/>
-                                <input type="hidden" name="usu_id"   id="usu_id" value="<?php echo $pacienteBean->getPac_id()?>"/>
+                            <form role="form" id="cad_pacientes">
 
                                 <div class="form-group col-md-1">
                                     <label for="disabledSelect">Código:</label>
-                                    <input disabled type="text" name="usu_id" class="form-control" value="<?php ?>"/>
+                                    <input type="text" class="form-control" id="codigo" name="codigo">
                                 </div>     
 
                                 <div class="form-group col-md-7">
                                     <label>Nome:</label>
-                                    <input required type="text" name="usu_nome" id="usu_nome" class="form-control" value="<?php ?>"  autocomplete="off" autofocus/>                                        
+                                    <input type="text" class="form-control" id="nome" placeholder="Digite o nome do usuário" name="name">
                                 </div>
                                 
                                 <div class="form-group col-md-2">
                                     <label>CPF: </label> <span id="resultadoCpf"></span>
-                                    <input required type="text" name="usu_cpf" id="usu_cpf" class="form-control" data-mask="000.000.000-00" value="<?php ?>" placeholder="000.000.000-00"/>
+                                    <input required type="text" name="cpf" id="usu_cpf" class="form-control" data-mask="000.000.000-00" value="<?php ?>" placeholder="000.000.000-00"/>
                                 </div>
                                 
                                 <div class="form-group col-md-2">
                                     <label>RG:</label>
-                                    <input required type="text" name="usu_celular" class="form-control" id="celular" data-mask="(00)0 0000-0000" value="<?php  ?>"  placeholder="(00)0 0000-0000"  autocomplete="off">                                   
+                                    <input required type="text" name="rg" class="form-control" id="celular" data-mask="(00)0 0000-0000" value="<?php  ?>"  placeholder="(00)0 0000-0000"  autocomplete="off">                                   
                                 </div>
                                 
                                 <div class="form-group col-md-3">
                                     <label>Telefone: </label> <span id="resultadoEmail"></span>
-                                    <input required type="text" name="usu_email" id="usu_email" class="form-control" value="<?php ?>"/>                                        
+                                    <input required type="text" name="telefone" id="usu_email" class="form-control" value="<?php ?>"/>                                        
                                     
                                 </div>
                                 
                                 <div class="form-group col-md-5">
                                     <label>Email:</label>
-                                    <input required type="text" name="usu_senha" class="form-control" value="<?php  ?>" id="inputError1">                                
+                                    <input required type="text" name="email" class="form-control" value="<?php  ?>" id="inputError1">                                
                                 </div>
                                 
                                   <div class="form-group col-md-4">
                                     <label>Data Nascimento: </label> <span id="resultadoEmail"></span>
-                                    <input required type="text" name="usu_email" id="usu_email" class="form-control" value="<?php ?>"/>                                        
+                                    <input required type="text" name="data_nascimento" id="usu_email" class="form-control" value="<?php ?>"/>                                        
                                     
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label>Idade:</label>
-                                    <input required type="text" name="usu_senha" class="form-control" value="<?php  ?>" id="inputError1">                                
+                                    <input required type="text" name="idade" class="form-control" value="<?php  ?>" id="inputError1">                                
                                 </div><!-- comment -->
                                 
                              
                                 <div class="form-group col-md-4">
                                     <label>Estado Civil:</label>
-                                    <select class="form-control"   name="emp_regime" >              
+                                    <select class="form-control"   name="estado_civil" >              
                                         <option  value="S" > Solteiro</option>
                                         <option  value="C" > Casado</option>
                                         <option  value="V" > Viúvo</option>
@@ -105,7 +104,7 @@ if($acao != ""){
                                 
                                 <div class="form-group col-md-4">
                                     <label>Sexo:</label>
-                                    <select class="form-control"   name="emp_regime" >              
+                                    <select class="form-control"   name="sexo" >              
                                         <option  value="M" > Masculino</option>
                                         <option  value="F" > Feminio</option>
                                     </select>                                           
@@ -140,8 +139,9 @@ if($acao != ""){
         </div>
     </div>
     
-    
+    <script src="Clientes.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+   
 </body>
 </html>
